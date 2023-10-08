@@ -9,6 +9,9 @@
     <DockPanel Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Button Click="ClickStartCc2" Name="StartButton">Launch CC2</Button>
+            <Button Click="LoadButton_OnClick" Name="LoadButton" IsEnabled="True">Load Replay</Button>
+            <Button Click="PauseButton_OnClick" Name="PauseButton" IsEnabled="False">Pause</Button>
+            <Slider MinWidth="300" Margin="3" Name="ReplayProgress" IsEnabled="False"></Slider>
         </StackPanel>
         
         <local:ZoomViewport x:Name="Viewport"></local:ZoomViewport>

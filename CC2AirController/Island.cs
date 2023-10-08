@@ -45,18 +45,20 @@ namespace CC2AirController
             }
             return island;
         }
-
+        
         public override void Draw(ZoomViewport viewport)
         {
             if (Name != null)
             {
                 var label_x = Loc.X;
-                var label_y = Loc.Y + 50;
+                var label_y = Loc.Y + 90;
 
                 var text = new TextBlock();
                 text.Text = Name;
-                text.Height = ScreenSize;
+                text.Height = ScreenSize * 2;
                 text.Foreground = new SolidColorBrush(GetColor());
+                text.VerticalAlignment = VerticalAlignment.Top;
+                text.HorizontalAlignment = HorizontalAlignment.Center;
                 viewport.AddText("islands", text, new Location(){ X= label_x, Y=label_y});
                 
                 var outline = new Polygon();
@@ -112,6 +114,7 @@ namespace CC2AirController
                 }
                 viewport.AddShape(outline, Loc);
             }
+            
         }
     }
 }

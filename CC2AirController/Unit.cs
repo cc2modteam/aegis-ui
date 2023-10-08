@@ -1,5 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Security.Policy;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace CC2AirController
 {
@@ -32,9 +36,91 @@ namespace CC2AirController
             return u;
         }
 
+        public VehicleDefinition Definition
+        {
+            get
+            {
+                if (Enum.TryParse(DefinitionIndex.ToString(), out VehicleDefinition result))
+                {
+                    return result;
+                }
+
+                return VehicleDefinition.UNK;
+            }
+        }
+
         public override string ToString()
         {
-            return base.ToString() + $" type={DefinitionIndex}";
+            return base.ToString() + $" type={Definition}";
+        }
+
+        public override void Draw(ZoomViewport viewport)
+        {
+            var location = Loc;
+            var col = GetColor();
+            var b = new SolidColorBrush(col);
+
+            var unitWidth = ScreenSize;
+            var unitHeight = ScreenSize;
+            
+            switch (Definition)
+            {
+                // boxes
+                case VehicleDefinition.BRG:
+                    unitWidth = ScreenSize * 0.5;
+                    goto case VehicleDefinition.CRR;
+                    
+                case VehicleDefinition.CRR:
+                    var rect = new Rectangle
+                    {
+                        Height = unitHeight,
+                        Width = unitWidth,
+                        Fill = b
+                    };
+
+                    viewport.AddShape(rect, location);
+                    break;
+                
+                // ground units
+                case VehicleDefinition.MUL:
+                    goto case VehicleDefinition.BER;
+                case VehicleDefinition.WLR:
+                    goto case VehicleDefinition.BER;
+                case VehicleDefinition.SEL:
+                    goto case VehicleDefinition.BER;    
+                case VehicleDefinition.BER:
+                    base.Draw(viewport);
+                    break;
+                
+                
+                // aircraft
+                
+                case VehicleDefinition.ALB:
+                    goto case VehicleDefinition.MNT;
+                case VehicleDefinition.RZR:
+                    goto case VehicleDefinition.MNT;
+                case VehicleDefinition.PTR:
+                    goto case VehicleDefinition.MNT;
+                case VehicleDefinition.MNT:
+                    var triangle = new Polygon();
+                    triangle.StrokeThickness = 1;
+                    triangle.HorizontalAlignment = HorizontalAlignment.Center;
+                    triangle.VerticalAlignment = VerticalAlignment.Center;
+                    triangle.Fill = new SolidColorBrush(GetColor());
+
+                    triangle.Points.Add(new Point(0, -0.7 * ScreenSize));
+                    triangle.Points.Add(new Point(ScreenSize / 1.5, ScreenSize / 1.5));
+                    triangle.Points.Add(new Point(ScreenSize / -1.5, ScreenSize / 1.5));
+
+                    viewport.AddShape(triangle, location);
+                    
+                    break;
+                
+                default:
+                    break;
+            }
+            
+            
         }
     }
 }

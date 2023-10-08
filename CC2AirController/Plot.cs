@@ -13,7 +13,8 @@ namespace CC2AirController
         public Location Loc { get; set; } = new Location();
 
         public List<Location> History { get; } = new List<Location>();
-        public double ScreenSize { get; set; } = 20;   // eg, always 20 px
+        public int FirstTick { get; set; }
+        public double ScreenSize { get; set; } = 10;   // eg, always 20 px
         public Color ScreenColor { get; set; }
         public List<string> Info { get; private set; } = new List<string>();
         public List<string> Labels { get; private set; } = new List<string>();
@@ -34,6 +35,8 @@ namespace CC2AirController
         
         public virtual void Draw(ZoomViewport viewport)
         {
+            var location = Loc;
+            
             var circle = new Ellipse
             {
                 Height = ScreenSize,
@@ -43,18 +46,19 @@ namespace CC2AirController
 
             var b = new SolidColorBrush(col);
             circle.Fill = b;
-            viewport.AddShape(circle, Loc);
+            viewport.AddShape(circle, location);
         }
-
+        
         public bool Tick()
         {
             if (Ttl > 0)
             {
                 Ttl -= 1;
                 History.Insert(0, Loc.Copy());
-                if (History.Count > 0)
+
+                if (History.Count > 10)
                 {
-                    History.RemoveAt(History.Count -1);
+                    History.RemoveAt(History.Count - 1);
                 }
             }
 

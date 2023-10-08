@@ -7,7 +7,19 @@ namespace CC2AirController
 {
     public class PlotReader
     {
+        private static PlotReader instance = null;
+        public static PlotReader GetInstance()
+        {
+            if (instance == null)
+            {
+                instance = new PlotReader();
+            }
+
+            return instance;
+        }
+        
         public StreamReader GameOutput { get; set; }
+        public StreamWriter SaveFile { get; set; }    
         public int GameSeconds { get; set; }
         private Dictionary<string, Plot> _plots = new Dictionary<string, Plot>();
         private Dictionary<string, Island> _islands = new Dictionary<string, Island>();
@@ -25,6 +37,8 @@ namespace CC2AirController
                         item.Loc = p.Loc.Copy();
                     }
                 } else {
+                    // new
+                    p.FirstTick = GameSeconds;
                     _plots[p.Id] = p;
                 }
             }
@@ -44,6 +58,7 @@ namespace CC2AirController
                 }
                 else
                 {
+                    p.FirstTick = GameSeconds;
                     _islands[p.Id] = p;
                 }
             }
@@ -77,6 +92,11 @@ namespace CC2AirController
                 if (line == null)
                 {
                     break;
+                }
+
+                if (SaveFile != null)
+                {
+                    SaveFile.WriteLine(line);
                 }
                 Console.Error.WriteLine(line);
 

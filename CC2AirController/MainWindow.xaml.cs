@@ -16,8 +16,8 @@ namespace CC2AirController
     /// </summary>
     public partial class MainWindow
     {
-       
-        private readonly PlotReader _reader = new PlotReader();
+
+        private readonly PlotReader _reader = PlotReader.GetInstance();
         private Cc2Process _cc2 = new Cc2Process();
 
         protected override void OnClosing(CancelEventArgs e)
@@ -40,13 +40,6 @@ namespace CC2AirController
             {
                 unit.Draw(Viewport);
             }
-            
-            var p1 = new Plot();
-            p1.Loc = new Location()
-            {
-                X = 1000,
-                Y = 1000
-            };
         }
 
         public MainWindow()
@@ -55,17 +48,6 @@ namespace CC2AirController
             Viewport.Area.X = -1000;
             Viewport.Area.Y = -1000;
             Viewport.Area.Width = 10000;
-
-            var p1 = new Plot()
-            {
-                Id = "999"
-            };
-            p1.Loc = new Location()
-            {
-                X = -5010,
-                Y = -3000
-            };
-            _reader.UpdatePlot(p1);
             
             CompositionTarget.Rendering += UpdatePlots;
         }
@@ -92,6 +74,19 @@ namespace CC2AirController
                 _reader.Start();
                 StartButton.IsEnabled = false;
             }
+        }
+
+        private void LoadButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            StartButton.IsEnabled = false;
+            PauseButton.IsEnabled = true;
+            LoadButton.IsEnabled = false;
+            ReplayProgress.IsEnabled = true;
+        }
+
+        private void PauseButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

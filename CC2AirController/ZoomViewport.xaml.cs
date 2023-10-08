@@ -180,13 +180,13 @@ namespace CC2AirController
         private void DoPan(MouseEventArgs e) {
             if (!isDragging)
             {
-                if (e.RightButton == MouseButtonState.Pressed)
+                if (e.LeftButton == MouseButtonState.Pressed)
                 {
                     isDragging = true;
                     dragStart = e.GetPosition(this);
                 }
             } else {
-                if (e.RightButton == MouseButtonState.Pressed)
+                if (e.LeftButton == MouseButtonState.Pressed)
                 {   
                     var pos = e.GetPosition(this);
                     var dx = dragStart.X - pos.X;

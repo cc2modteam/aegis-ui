@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
-using System.Windows;
 
 namespace CC2AirController
 {
@@ -17,15 +15,22 @@ namespace CC2AirController
         public IEnumerable<Plot> Plots => new List<Plot>(_plots.Values);
         public IEnumerable<Island> Islands => new List<Island>(_islands.Values);
 
-        public void AddPlot(Plot p)
+        public void UpdatePlot(Plot p)
         {
             if (p.Id != null)
             {
-                _plots[p.Id] = p;
+                if (_plots.TryGetValue(p.Id, out Plot item)) {
+                    if (item is Unit)
+                    {
+                        item.Loc = p.Loc.Copy();
+                    }
+                } else {
+                    _plots[p.Id] = p;
+                }
             }
         }
         
-        public void AddIsland(Island p)
+        public void UpdateIsland(Island p)
         {
             if (p.Id != null)
             {
@@ -99,8 +104,13 @@ namespace CC2AirController
                             case "AI":
                                 // island
                                 var island = Island.FromDict(iid, data);
-                                AddIsland(island);
-
+                                UpdateIsland(island);
+                                break;
+                                
+                            case "AU":
+                                // unit
+                                var unit = Unit.FromDict(iid, data);
+                                UpdatePlot(unit);
                                 break;
                             case "AIC":
                                 // island command center

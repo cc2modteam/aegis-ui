@@ -17,6 +17,8 @@ namespace CC2AirController
         public Location CommandCenter { get; set; } = new Location();
         public List<Location> TurretSpawns { get; private set; } = new List<Location>();
 
+        public Color OutlineColor = Colors.DarkSlateGray;
+
         public static Island FromDict(int iid, Dictionary<string, string> data)
         {
             var island = new Island();
@@ -61,7 +63,7 @@ namespace CC2AirController
                 outline.StrokeThickness = 1;
                 outline.HorizontalAlignment = HorizontalAlignment.Center;
                 outline.VerticalAlignment = VerticalAlignment.Center;
-                outline.Stroke = new SolidColorBrush(GetColor());
+                outline.Stroke = new SolidColorBrush(OutlineColor);
 
                 var scale = viewport.Scale;
 
@@ -73,7 +75,7 @@ namespace CC2AirController
                     Location east = Loc.Copy();
                     Location south = Loc.Copy();
                     Location west = Loc.Copy();
-                    foreach (var turret in TurretSpawns)
+                    foreach (var turret in TurretSpawns.ToArray())
                     {
                         if (turret.Y > north.Y)
                         {

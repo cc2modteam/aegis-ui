@@ -55,6 +55,7 @@
         <Compile Include="CC2Process.cs" />
         <Compile Include="Island.cs" />
         <Compile Include="PlotReader.cs" />
+        <Compile Include="Unit.cs" />
         <Compile Include="Utils.cs" />
         <Compile Include="ZoomViewport.xaml.cs">
           <DependentUpon>ZoomViewport.xaml</DependentUpon>

@@ -65,7 +65,7 @@ namespace CC2AirController
                 X = -5010,
                 Y = -3000
             };
-            _reader.AddPlot(p1);
+            _reader.UpdatePlot(p1);
             
             CompositionTarget.Rendering += UpdatePlots;
         }

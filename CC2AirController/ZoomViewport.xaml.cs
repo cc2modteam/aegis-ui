@@ -73,7 +73,7 @@ namespace CC2AirController
 
         public double ScreenToWorld(double pix)
         {
-            return pix / Zoom;
+            return pix * Zoom;
         }
         
         public Location ScreenToWorld(Location screen)
@@ -176,12 +176,19 @@ namespace CC2AirController
                 }
             } else {
                 if (e.RightButton == MouseButtonState.Pressed)
-                {
+                {   
                     var pos = e.GetPosition(this);
-                    var dx = ScreenToWorld(dragStart.X - pos.X);
-                    var dy = ScreenToWorld(dragStart.Y - pos.Y) * ActualAspect;
-                    Area.X += dx;
-                    Area.Y -= dy;
+                    var dx = dragStart.X - pos.X;
+                    var dy = dragStart.Y - pos.Y;
+                    //Area.X += dx;
+                    //Area.Y -= dy;
+
+                    var wdx = ScreenToWorld(dx);
+                    var wdy = ScreenToWorld(dy);
+
+                    Area.X += wdx;
+                    Area.Y -= wdy;
+                    
                     dragStart = e.GetPosition(this);
                 }
                 else

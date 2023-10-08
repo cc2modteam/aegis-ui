@@ -30,36 +30,42 @@ namespace CC2AirController
         {
             Viewport.ClearLayer("shapes");
             Viewport.ClearLayer("islands");
+
+            foreach (var island in _reader.Islands)
+            {
+                island.Draw(Viewport);
+            }
+
+            foreach (var unit in _reader.Plots)
+            {
+                unit.Draw(Viewport);
+            }
             
             var p1 = new Plot();
             p1.Loc = new Location()
             {
-                X = -5010,
-                Y = -3000
+                X = 1000,
+                Y = 1000
             };
-            p1.Draw(Viewport);
-            
-            var p2 = new Plot();
-            p2.Loc = new Location()
-            {
-                X = -4500,
-                Y = -4000
-            };
-            p2.Draw(Viewport);
-
-            var i1 = new Island();
-            i1.Name = "Hades";
-            i1.Loc.X = -5000;
-            i1.Loc.Y = -5000;
-            i1.Draw(Viewport);
         }
 
         public MainWindow()
         {
             InitializeComponent();
-            Viewport.Area.X = -8000;
-            Viewport.Area.Y = -8000;
+            Viewport.Area.X = -1000;
+            Viewport.Area.Y = -1000;
             Viewport.Area.Width = 10000;
+
+            var p1 = new Plot()
+            {
+                Id = "999"
+            };
+            p1.Loc = new Location()
+            {
+                X = -5010,
+                Y = -3000
+            };
+            _reader.AddPlot(p1);
             
             CompositionTarget.Rendering += UpdatePlots;
         }

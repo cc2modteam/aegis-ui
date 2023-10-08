@@ -16,6 +16,7 @@ namespace CC2AirController
         public List<string> Info { get; private set; } = new List<string>();
         public List<string> Labels { get; private set; } = new List<string>();
 
+        public int Ttl { get; set; } = 10;
 
         public Color GetColor()
         {
@@ -41,6 +42,16 @@ namespace CC2AirController
             var b = new SolidColorBrush(col);
             circle.Fill = b;
             viewport.AddShape(circle, Loc);
+        }
+
+        public bool Tick()
+        {
+            if (Ttl > 0)
+            {
+                Ttl -= 1;
+            }
+
+            return Ttl == 0;
         }
     }
 

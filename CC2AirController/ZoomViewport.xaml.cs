@@ -130,21 +130,25 @@ namespace CC2AirController
             if (amount > 0)
             {
                 // zoom out (increase window size by amount meters)
-                if (Area.Width < 10000)
+                if (Area.Width < 1000000)
                 {
-                    Area.Width += amount;
-                    Area.X -= amount / 2; // shift left of window right
-                    Area.Y -= ActualAspect * (Math.Abs(amount) / 2);
+                    var step = Area.Width * 0.1;
+                    
+                    Area.Width += step;
+                    Area.X -= step / 2; // shift left of window right
+                    Area.Y -= ActualAspect * step / 2;
                 }
             }
             else
             {
+                
                 // zoom in, 
                 if (Area.Width > 1000)
                 {
-                    Area.Width += amount;
-                    Area.X += Math.Abs(amount) / 2;
-                    Area.Y += ActualAspect * (Math.Abs(amount) / 2);
+                    var step = Area.Width * 0.1;
+                    Area.Width -= step;
+                    Area.X += step / 2;
+                    Area.Y += ActualAspect * step / 2;
                 }
             }
             
@@ -154,11 +158,11 @@ namespace CC2AirController
         {
             if (e.Delta > 0)
             {
-                AdjustZoom(-1000);
+                AdjustZoom(-1);
             }
             else
             {
-                AdjustZoom(500);
+                AdjustZoom(0.5);
             }
             
             e.Handled = true;

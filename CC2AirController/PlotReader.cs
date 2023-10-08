@@ -107,6 +107,26 @@ namespace CC2AirController
                                 break;
                             case "AIT":
                                 // island turret spot
+                                Island current;
+                                if (_islands.TryGetValue(iid.ToString(), out current))
+                                {
+                                    string tx;
+
+                                    if (data.TryGetValue("x", out tx))
+                                    {
+                                        string ty;
+                                        if (data.TryGetValue("y", out ty))
+                                        {
+                                            var turret = new Location()
+                                            {
+                                                X = double.Parse(tx),
+                                                Y = double.Parse(ty)
+                                            };
+                                            current.TurretSpawns.Add(turret);
+                                        }
+                                    }
+                                }
+
                                 break;
                         }
                     }

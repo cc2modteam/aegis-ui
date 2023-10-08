@@ -75,6 +75,13 @@ namespace CC2AirController
         {
             return pix * Zoom;
         }
+
+        public Point WorldToRelativePoint(Location center, Location worldpoint)
+        {
+            var dx = worldpoint.X - center.X;
+            var dy = worldpoint.Y - center.Y;
+            return new Point(dx * Scale, dy * Scale);
+        }
         
         public Location ScreenToWorld(Location screen)
         {

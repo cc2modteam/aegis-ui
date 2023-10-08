@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace CC2AirController
 {
@@ -54,6 +56,59 @@ namespace CC2AirController
                 text.Height = ScreenSize;
                 text.Foreground = new SolidColorBrush(GetColor());
                 viewport.AddText("islands", text, new Location(){ X= label_x, Y=label_y});
+                
+                var outline = new Polygon();
+                outline.StrokeThickness = 1;
+                outline.HorizontalAlignment = HorizontalAlignment.Center;
+                outline.VerticalAlignment = VerticalAlignment.Center;
+                outline.Stroke = new SolidColorBrush(GetColor());
+
+                var scale = viewport.Scale;
+
+                if (TurretSpawns.Count > 3)
+                {
+                    // draw a polygon
+                    // find cardinal turrets
+                    Location north = Loc.Copy();
+                    Location east = Loc.Copy();
+                    Location south = Loc.Copy();
+                    Location west = Loc.Copy();
+                    foreach (var turret in TurretSpawns)
+                    {
+                        if (turret.Y > north.Y)
+                        {
+                            north = turret;
+                        }
+
+                        if (turret.Y < south.Y)
+                        {
+                            south = turret;
+                        }
+
+                        if (turret.X > east.X)
+                        {
+                            east = turret;
+                        }
+
+                        if (turret.X < west.X)
+                        {
+                            west = turret;
+                        }
+                    }
+                    
+                    outline.Points.Add(viewport.WorldToRelativePoint(Loc, north));
+                    outline.Points.Add(viewport.WorldToRelativePoint(Loc, east));
+                    outline.Points.Add(viewport.WorldToRelativePoint(Loc, south));
+                    outline.Points.Add(viewport.WorldToRelativePoint(Loc, west));
+                    
+                } else {
+                    // make a box around the middle of the island and the command center
+                    outline.Points.Add(new Point(scale * -500, scale * -600));
+                    outline.Points.Add(new Point(scale * 600, scale * -500));
+                    outline.Points.Add(new Point(scale * 500, scale * 600));
+                    outline.Points.Add(new Point(scale * -650, scale * 600));
+                }
+                viewport.AddShape(outline, Loc);
             }
         }
     }

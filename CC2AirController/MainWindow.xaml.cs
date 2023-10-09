@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -70,7 +71,11 @@ namespace CC2AirController
                     _cc2.Cc2Exe = basename;
                 }
                 _cc2.Start();
+                var writefile = System.IO.Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Personal),
+                    "cc2-aegis.log");
                 _reader.GameOutput = _cc2.OutputStream;
+                _reader.SaveFile = new StreamWriter(File.OpenWrite(writefile));
                 _reader.Start();
                 StartButton.IsEnabled = false;
             }

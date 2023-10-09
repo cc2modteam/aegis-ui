@@ -66,8 +66,18 @@ namespace CC2AirController
             switch (Definition)
             {
                 // boxes
-                case VehicleDefinition.BRG:
+                case VehicleDefinition.NDL:
+                    unitWidth = ScreenSize * 0.4;
+                    unitHeight = ScreenSize * 0.9;
+                    goto case VehicleDefinition.CRR;
+                    
+                case VehicleDefinition.SWD:
                     unitWidth = ScreenSize * 0.5;
+                    unitHeight = ScreenSize * 1.1;
+                    goto case VehicleDefinition.CRR;
+                    
+                case VehicleDefinition.BRG:
+                    unitWidth = ScreenSize * 0.6;
                     goto case VehicleDefinition.CRR;
                     
                 case VehicleDefinition.CRR:
@@ -92,9 +102,7 @@ namespace CC2AirController
                     base.Draw(viewport);
                     break;
                 
-                
                 // aircraft
-                
                 case VehicleDefinition.ALB:
                     goto case VehicleDefinition.MNT;
                 case VehicleDefinition.RZR:
@@ -102,11 +110,13 @@ namespace CC2AirController
                 case VehicleDefinition.PTR:
                     goto case VehicleDefinition.MNT;
                 case VehicleDefinition.MNT:
-                    var triangle = new Polygon();
-                    triangle.StrokeThickness = 1;
-                    triangle.HorizontalAlignment = HorizontalAlignment.Center;
-                    triangle.VerticalAlignment = VerticalAlignment.Center;
-                    triangle.Fill = new SolidColorBrush(GetColor());
+                    var triangle = new Polygon
+                    {
+                        StrokeThickness = 1,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Fill = new SolidColorBrush(GetColor())
+                    };
 
                     triangle.Points.Add(new Point(0, -0.7 * ScreenSize));
                     triangle.Points.Add(new Point(ScreenSize / 1.5, ScreenSize / 1.5));
